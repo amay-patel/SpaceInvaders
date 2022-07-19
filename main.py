@@ -3,6 +3,7 @@ import sys
 from bullet import Bullet
 from settings import Settings
 from ship import Ship
+from alien import Alien
 
 """
 Class for the overall game
@@ -20,6 +21,8 @@ class AlienGame:
         self.settings.screen_height = self.screen.get_rect().height
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
+        self.aliens = pygame.sprite.Group()
+        self.create_army()
         pygame.display.set_caption("Space Invaders")
 
     """
@@ -91,7 +94,28 @@ class AlienGame:
         self.ship.createShip()
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
+        self.aliens.draw(self.screen)
         pygame.display.flip()
+
+    def create_army(self):
+        alien = Alien(self)
+        alien_width, alien_height = alien.rect.size
+        available_space_aliens = self.settings.screen_length - (2 * alien_width)
+        number_of_aliens = available_space_aliens // (2 * alien_width)
+        ship_height = self.ship.rect.height
+        available_space = (self.settings.screen_height - (3 * alien_height) - ship_height)
+        number_rows = available_space // (2 * alien_height)
+        for row in range(number_rows):
+            for number in range(number_of_aliens):
+                self.create_alien(number, row)
+
+    def create_alien(self, number, row):
+        alien = Alien(self)
+        alien_width, alien_height = alien.rect.size
+        alien.x = alien_width + 2 * alien_width * number
+        alien.rect.x = alien.x
+        alien.rect.y = alien.rect.height + 2 * alien.rect.height * row
+        self.aliens.add(alien)
 
 if __name__ == '__main__':
     ai = AlienGame()
