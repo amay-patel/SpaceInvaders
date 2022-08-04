@@ -7,6 +7,7 @@ from alien import Alien
 from time import sleep
 from gamestats import GameStats
 from raindrop import Raindrop
+from button import Button
 
 """
 Class for the overall game
@@ -27,6 +28,7 @@ class AlienGame:
         self.aliens = pygame.sprite.Group()
         self.create_army()
         self.stats = GameStats(self)
+        self.play_button = Button(self, "Play")
         pygame.display.set_caption("Space Invaders")
 
     """
@@ -40,7 +42,6 @@ class AlienGame:
                 self.update_bullets()
                 self.update_alien()
 
-            self.update_raindrops()
             self.update_screen()
 
     """
@@ -55,6 +56,9 @@ class AlienGame:
                 self.check_keydown(event)
             elif event.type == pygame.KEYUP:
                 self.check_keyup(event)
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                mouseposition = pygame.mouse.get_pos()
+                self.check_play_button(mouseposition)
 
     """
     Specifically for pressing down on the key
@@ -169,6 +173,7 @@ class AlienGame:
             sleep(0.5)
         else:
             self.stats.game_active = False
+            pygame.mouse.set_visible(True)
 
     """
     Method to handle when alien hits bottom of screen
@@ -180,6 +185,16 @@ class AlienGame:
                 self.lose_ship()
                 break
 
+    def check_play_button(self, mouseposition):
+        button_clicked = self.play_button.rect.collidepoint(mouseposition)
+        if button_clicked and not self.stats.game_active:
+            self.stats.reset_stats()
+            self.stats.game_active = True
+            self.aliens.empty()
+            self.bullets.empty()
+            self.create_army()
+            self.ship.newShip()
+            pygame.mouse.set_visible(False)
     """
     Updates the images on the screen and flips the screen
     """
@@ -189,6 +204,8 @@ class AlienGame:
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
         self.aliens.draw(self.screen)
+        if not self.stats.game_active:
+            self.play_button.draw_button()
         pygame.display.flip()
 
 if __name__ == '__main__':

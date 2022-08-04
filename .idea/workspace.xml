@@ -6,8 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="d3538b16-fcc3-4086-b549-ddc26182bd2e" name="Changes" comment="&quot;Updated some code&quot;">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gamestats.py" beforeDir="false" afterPath="$PROJECT_DIR$/gamestats.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/settings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,7 +82,7 @@
       <workItem from="1658012213987" duration="7381000" />
       <workItem from="1658182159995" duration="5169000" />
       <workItem from="1658250345578" duration="7866000" />
-      <workItem from="1659641164524" duration="2593000" />
+      <workItem from="1659641164524" duration="4611000" />
     </task>
     <task id="LOCAL-00001" summary="&quot;Updated some code&quot;">
       <created>1658209610000</created>
@@ -113,6 +113,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="&quot;Updated some code&quot;" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/SpaceInvaders$main.coverage" NAME="main Coverage Results" MODIFIED="1659643658046" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/SpaceInvaders$main.coverage" NAME="main Coverage Results" MODIFIED="1659646064931" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
