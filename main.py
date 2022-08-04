@@ -27,7 +27,6 @@ class AlienGame:
         self.aliens = pygame.sprite.Group()
         self.create_army()
         self.stats = GameStats(self)
-        self.raindrops = pygame.sprite.Group()
         pygame.display.set_caption("Space Invaders")
 
     """
@@ -40,8 +39,9 @@ class AlienGame:
                 self.ship.moveShip()
                 self.update_bullets()
                 self.update_alien()
-            self.update_screen()
+
             self.update_raindrops()
+            self.update_screen()
 
     """
     Responds to the keyboard and mouse presses
@@ -180,39 +180,6 @@ class AlienGame:
                 self.lose_ship()
                 break
 
-    def create_rain(self):
-        drop = Raindrop(self)
-        drop_width, drop_length = drop.rect.size
-        available_space_x = self.settings.screen_length - drop_width
-        self.numbers_drops_x = available_space_x // (2 * drop_width)
-        available_space_y = self.settings.screen_height
-        numbersrow = available_space_y // (2 * drop_length)
-
-        for row in range(numbersrow):
-            self.createrow(row)
-
-    def createrow(self, row):
-        for drop_number in range(self.number_drops_x):
-            self._create_drop(drop_number, row)
-
-    def create_drop(self, drop_number, row_number):
-        drop = Raindrop(self)
-        drop_width, drop_height = drop.rect.size
-        drop.rect.x = drop_width + 2 * drop_width * drop_number
-        drop.y = 2 * drop.rect.height * row_number
-        drop.rect.y = drop.y
-        self.raindrops.add(drop)
-
-    def update_raindrops(self):
-        self.raindrops.update()
-        make_new_drops = False
-        for drop in self.raindrops.copy():
-            if drop.check_disappeared():
-                self.raindrops.remove(drop)
-                make_new_drops = True
-        if make_new_drops:
-            self._create_row(0)
-
     """
     Updates the images on the screen and flips the screen
     """
@@ -222,7 +189,6 @@ class AlienGame:
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
         self.aliens.draw(self.screen)
-        self.raindrops.draw(self.screen)
         pygame.display.flip()
 
 if __name__ == '__main__':

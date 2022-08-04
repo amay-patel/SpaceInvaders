@@ -15,3 +15,4 @@ class Settings:
         self.fleet_speed = 20
         self.fleet_direction = 1
         self.ship_limit = 3
+        self.raindrop_speed = 1.5
