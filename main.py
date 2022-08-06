@@ -30,6 +30,7 @@ class AlienGame:
         self.stats = GameStats(self)
         self.play_button = Button(self, "Play")
         pygame.display.set_caption("Space Invaders")
+        self.make_difficulty_buttons()
 
     """
     Function that runs the game
@@ -59,6 +60,47 @@ class AlienGame:
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouseposition = pygame.mouse.get_pos()
                 self.check_play_button(mouseposition)
+                self.check_difficulty_buttons(mouseposition)
+
+    """
+    Specifically to start a new game with P key
+    """
+    def start_gameP(self):
+        self.stats.reset_stats()
+        self.stats.game_active = True
+
+        self.aliens.empty()
+        self.bullets.empty()
+
+        self.create_army()
+        self.ship.newShip()
+
+        pygame.mouse.set_visible(False)
+
+    def make_difficulty_buttons(self):
+        self.easy_button = Button(self, "Easy")
+        self.medium_button = Button(self, "Medium")
+        self.difficult_button = Button(self, "Difficult")
+
+        self.easy_button.rect.top = (self.play_button.rect.top + 1.5 * self.play_button.rect.height)
+        self.easy_button.update_msg_position()
+
+        self.medium_button.rect.top = (self.easy_button.rect.top + 1.5 * self.easy_button.rect.height)
+        self.medium_button.update_msg_position()
+
+        self.difficult_button.rect.top = (self.medium_button.rect.top + 1.5 * self.medium_button.rect.height)
+        self.difficult_button.update_msg_position()
+
+    def check_difficulty_buttons(self, mouseposition):
+        easy_button_clicked = self.easy_button.rect.collidepoint(mouseposition)
+        medium_button_clicked = self.medium_button.rect.collidepoint(mouseposition)
+        diff_button_clicked = self.difficult_button.rect.collidepoint(mouseposition)
+        if easy_button_clicked:
+            self.settings.difficulty_level = 'easy'
+        elif medium_button_clicked:
+            self.settings.difficulty_level = 'medium'
+        elif diff_button_clicked:
+            self.settings.difficulty_level = 'difficult'
 
     """
     Specifically for pressing down on the key
@@ -72,6 +114,10 @@ class AlienGame:
             sys.exit()
         elif event.key == pygame.K_w:
             self.shoot()
+        elif event.key == pygame.K_p and not self.stats.game_active:
+            mouseposition = pygame.mouse.get_pos()
+            self.start_gameP()
+            self.check_difficulty_buttons(mouseposition)
 
     """
     Specifically for pressing up on the key
@@ -159,6 +205,7 @@ class AlienGame:
         if not self.aliens:
             self.bullets.empty()
             self.create_army()
+            self.settings.adjust_settings()
 
     """
     Method to handle when alien hits ship
@@ -188,6 +235,7 @@ class AlienGame:
     def check_play_button(self, mouseposition):
         button_clicked = self.play_button.rect.collidepoint(mouseposition)
         if button_clicked and not self.stats.game_active:
+            self.settings.initsettings()
             self.stats.reset_stats()
             self.stats.game_active = True
             self.aliens.empty()
@@ -206,6 +254,9 @@ class AlienGame:
         self.aliens.draw(self.screen)
         if not self.stats.game_active:
             self.play_button.draw_button()
+            self.easy_button.draw_button()
+            self.medium_button.draw_button()
+            self.difficult_button.draw_button()
         pygame.display.flip()
 
 if __name__ == '__main__':
