@@ -8,6 +8,7 @@ from time import sleep
 from gamestats import GameStats
 from raindrop import Raindrop
 from button import Button
+from score import Board
 
 """
 Class for the overall game
@@ -29,8 +30,9 @@ class AlienGame:
         self.create_army()
         self.stats = GameStats(self)
         self.play_button = Button(self, "Play")
-        pygame.display.set_caption("Space Invaders")
         self.make_difficulty_buttons()
+        self.board = Board(self)
+        pygame.display.set_caption("Space Invaders")
 
     """
     Function that runs the game
@@ -202,17 +204,25 @@ class AlienGame:
     """
     def check_collision(self):
         collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
+        if collisions:
+            for aliens in collisions.values():
+                self.stats.gamescore += self.settings.alien_points * len(aliens)
+            self.stats.gamescore += self.settings.alien_points
+            self.board.set_score()
+            self.board.check_high_score()
         if not self.aliens:
             self.bullets.empty()
             self.create_army()
             self.settings.adjust_settings()
-
+            self.stats.level += 1
+            self.sb.prep_level()
     """
     Method to handle when alien hits ship
     """
     def lose_ship(self):
         if self.stats.ships_left > 0:
             self.stats.ships_left -= 1
+            self.board.prep_ships()
             self.aliens.empty()
             self.bullets.empty()
             self.create_army()
@@ -243,6 +253,9 @@ class AlienGame:
             self.create_army()
             self.ship.newShip()
             pygame.mouse.set_visible(False)
+            self.board.display_score()
+            self.board.prep_level()
+            self.board.prep_ships()
     """
     Updates the images on the screen and flips the screen
     """
@@ -252,6 +265,7 @@ class AlienGame:
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
         self.aliens.draw(self.screen)
+        self.board.display_score()
         if not self.stats.game_active:
             self.play_button.draw_button()
             self.easy_button.draw_button()

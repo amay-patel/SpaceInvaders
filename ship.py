@@ -3,6 +3,7 @@ import pygame
 
 class Ship:
     def __init__(self, ai):
+        super().__init__()
         self.screen = ai.screen
         self.screen_rect = ai.screen.get_rect()
         self.settings = ai.settings
