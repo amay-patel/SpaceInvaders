@@ -1,5 +1,6 @@
 import pygame
 import sys
+import json
 from bullet import Bullet
 from settings import Settings
 from ship import Ship
@@ -54,7 +55,7 @@ class AlienGame:
     def check_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                sys.exit()
+                self.finish_game()
             elif event.type == pygame.KEYDOWN:
                 self.check_keydown(event)
             elif event.type == pygame.KEYUP:
@@ -113,7 +114,7 @@ class AlienGame:
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = True
         elif event.key == pygame.K_q:
-            sys.exit()
+            self.finish_game()
         elif event.key == pygame.K_w:
             self.shoot()
         elif event.key == pygame.K_p and not self.stats.game_active:
@@ -215,7 +216,7 @@ class AlienGame:
             self.create_army()
             self.settings.adjust_settings()
             self.stats.level += 1
-            self.sb.prep_level()
+            self.board.prep_level()
     """
     Method to handle when alien hits ship
     """
@@ -273,6 +274,13 @@ class AlienGame:
             self.difficult_button.draw_button()
         pygame.display.flip()
 
+    def finish_game(self):
+        save_high_score = self.stats.save_high_scores()
+        if self.stats.highscore > save_high_score:
+            with open('high_score.json', 'w') as f:
+                json.dump(self.stats.highscore, f)
+
+        sys.exit()
 if __name__ == '__main__':
     ai = AlienGame()
     ai.rungame()

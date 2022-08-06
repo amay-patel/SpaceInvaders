@@ -40,8 +40,7 @@ class Settings:
         self.ship_speed *= self.speedup_scale
         self.bullet_speed *= self.speedup_scale
         self.alien_speed *= self.speedup_scale
-        self.alien_points *= int(self.alien_points * self.score_scale)
-        print(self.alien_points)
+        self.alien_points = int(self.alien_points * self.score_scale)
 
     def determine_difficulty(self, curr_diff):
         if curr_diff == 'easy':
