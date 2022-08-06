@@ -12,3 +12,9 @@ When done selecting the mode, the user can click the "Play" button on the menu s
 
 ## High Scores
 Once the user is done playing the game, a *high_scores.json* file will be created (if it's the users first time playing) and write their high score on a new line in the file
+
+## Screenshots of Game
+<img width="1440" alt="startingmenu" src="https://user-images.githubusercontent.com/92037532/183268820-0f8f2372-048f-49e1-8f42-fd9ffca19500.png">
+<br>
+<br>
+<img width="1440" alt="gameplay" src="https://user-images.githubusercontent.com/92037532/183268858-d4bc1f3b-dfe2-4521-b039-a15ddafcaf22.png">
